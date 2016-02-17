@@ -1,0 +1,57 @@
+//------------------------------------------------------------------------
+// Copyright 2016 DirectStream, LLC.  All rights reserved.
+//
+//      Manufactured in the United States of America.
+//
+// DirectStream, LLC
+// 4240 N Nevada Avenue
+// Colorado Springs, CO 80907
+// (v) (719) 262-0213
+// (f) (719) 262-0223
+//
+// As covered under the End User Software License Agreement, no
+// permission has been granted to distribute or copy this software
+// without the express permission of DirectStream, LLC.
+//
+// This program is distributed WITHOUT ANY WARRANTY OF ANY KIND.
+//
+// DirectStream, LLC Confidential as covered under the NDA agreement.
+//------------------------------------------------------------------------
+//  toUpper.mcpp
+//    MAP processor function mapToUpper(). Takes a mutable byte buffer
+//    of BUFSZ bytes of US-ASCII characters and convets them all to
+//    upper case US-ASCII.
+//
+//  This is part of a simple example showing how to create a MAP processor
+//  library function in a shared library, callable from Python, Java or C++.
+//------------------------------------------------------------------------
+
+#include <carte/autocopy>
+#define MAPFUNC
+#include "toUpper.h"
+
+using namespace carte;
+
+#define UPPERCASE(c) (c & ~0x20)  // ascii [A-Za-z] -> [A-Z]
+#define ASCII_A  0x41             // 'A'
+#define ASCII_Z  0x5a             // 'Z'
+
+//------------------------------------------------------------------------------
+//  mapToUpper()
+//    MAP processor function to convert 7-bit US-ASCII [A-Za-z] characters
+//    in a CPU buffer to upper case US-ASCII [A-Z] characters.
+//------------------------------------------------------------------------------
+void mapToUpper(
+  cpu_ptr<uint8_t> cpu_buf,     // a mutable string buffer containing BUFSZ US-ASCII characters
+  int mapnum)                   // unused in single MAP programs
+{
+  uint8_t buf[BUFSZ];           // MAP processor memory for cpu_buf data
+
+  autocopy::inout<uint8_t> cb(cpu_buf, BUFSZ, buf);   // automatic character buffer copy from/to CPU
+  for(int i = 0; i < BUFSZ; i++) {                    // if character element of [A-Za-z], convert to [A-Z]
+    uint8_t AtoZ = UPPERCASE(buf[i]);
+    buf[i] = ((AtoZ >= ASCII_A) & (AtoZ <= ASCII_Z)) ? AtoZ : buf[i];
+  }
+}
+
+

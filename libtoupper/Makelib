@@ -1,0 +1,47 @@
+#------------------------------------------------------------------------
+# Copyright 2016 DirectStream, LLC.  All rights reserved.
+#
+#      Manufactured in the United States of America.
+#
+# DirectStream, LLC
+# 4240 N Nevada Avenue
+# Colorado Springs, CO 80907
+# (v) (719) 262-0213
+# (f) (719) 262-0223
+#
+# As covered under the End User Software License Agreement, no
+# permission has been granted to distribute or copy this software
+# without the express permission of DirectStream, LLC.
+#
+# This program is distributed WITHOUT ANY WARRANTY OF ANY KIND.
+#
+# DirectStream, LLC Confidential as covered under the NDA agreement.
+#------------------------------------------------------------------------
+# Standard makefile for library installation.
+#
+# 1. Change HOMEDIR to your home directory
+# 2. Invocation: make -f Makelib
+# 3. Make certain LIBDIR is in your LD_LIBRARY_PATH
+#
+# This is part of a simple example showing how to create a MAP processor
+# library function in a shared library, callable from Python, Java or C++.
+#------------------------------------------------------------------------
+
+HOMEDIR		= /home/dpointer
+INCDIR 		= $(HOMEDIR)/include
+LIBDIR 		= $(HOMEDIR)/lib
+HDR 		= toUpper.h
+SOLIB 		= libtoupper.so
+
+all: install
+
+install:
+	cp $(HDR) $(INCDIR)/.
+	cp $(SOLIB).1.0.0 $(LIBDIR)/$(SOLIB).1.0.0
+	ln -sf $(LIBDIR)/$(SOLIB).1.0.0 $(LIBDIR)/$(SOLIB).1
+	ln -sf $(LIBDIR)/$(SOLIB).1 $(LIBDIR)/$(SOLIB)
+
+clean:
+	rm -f $(LIBDIR)/$(SOLIB)*
+	rm -f $(INCDIR)/$(HDR)
+

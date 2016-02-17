@@ -1,0 +1,66 @@
+This is an example showing how to create a MAP processor
+shared library with one very simple MAP processor function
+in the library. Examples of calling the MAP processor function 
+in the library from a C++ main, Java and Python are provided.
+
+----------
+./libtoupper/
+    Contains the code and makefiles to build and install the 
+    shared library.
+./libtoupper/Makefile
+    Carte++ v0.3 beta make file for the shared library containing
+    the MAP processor function call.
+./libtoupper/toUpper.h
+    Header file declaring the wrapper function call prototype.
+./libtoupper/toUpper.cpp
+    The wrapper code to set up the MAP processor before calling
+    the MAP processor function.
+./libtoupper/toUpper.mcpp
+    MAP processor function to convert 7-bit US-ASCII [A-Za-z] characters
+    in a CPU buffer to upper case US-ASCII [A-Z] characters.
+./libtoupper/Java_ToUpperExample_toUpper.h
+    Auto generated JNI version 6 header file. Created in ./java/. by
+      javac ToUpperExample.java
+      javah ToUpperExample
+    and then copied to ./libupper/.
+./libtoupper/Java_ToUpperExample_toUpper.cpp
+    Implementation of Java 6 JNI interface to the MAP processor library 
+    CPU entry point toUpper().
+./libtoupper/Makelib
+    Standard makefile for library installation. 'make -f Makelib'
+    The installation directory must be in your LD_LIBRARY_PATH.
+
+----------
+./cpp/
+    C++ source code that calls the MAP processor function from the
+    installed shared library.
+./cpp/Makefile
+    Standard makefile to compile and link toUpperExample.cpp.
+./cpp/toUpperExample.cpp
+    C++ code to create a string of BUFSZ US-ASCII characters and send
+    it to the MAP processor for conversion to upper case. 
+    Execution output:
+      ThiS is A strinG -> THIS IS A STRING
+
+----------
+./java/
+    Java source code that calls the MAP processor function from the
+    installed shared library using JNI 6.
+./java/ToUpperExample.java
+    Java code to create a string of BUFSZ US-ASCII characters and send
+    it to the MAP processor for conversion to upper case. Execution:
+      javac ToUpperExample.java
+      java ToUpperExample
+    Output:
+      ThiS is A strinG -> THIS IS A STRING
+
+----------
+./python/
+    Python source code that calls the MAP processor function from the
+    installed shared library using ctypes.
+./python/ToUpperExample.py
+    Python code to create a string of BUFSZ US-ASCII characters and send
+    it to the MAP processor for conversion to upper case. Execution:
+      python ToUpperExample.py
+    Output:
+      ThiS is A strinG -> THIS IS A STRING
